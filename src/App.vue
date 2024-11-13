@@ -4,27 +4,32 @@
   <option v-for="(c,i) in city" :value="i" :key="i">{{ c.name }}</option>
   </select>
   <p v-if="!weather_data">Загрузка...</p> 
-  <div v-else>
-    <p>Температура: {{ weather_data.main.temp }}</p>
-    <p>Давление: {{ weather_data.main.pressure }}</p>
-    <p>Облачность: {{ weather_data.weather.description }}</p>
-    <p>Уровень моря: {{ weather_data.main.sea_level }}</p>
+  <div v-if="forecast_data" class="cards">
+    <ForecastCard
+      v-for="(f, i) in forecast_data.list"
+      :key="i"
+      :forecast_data="f">
+      
+    </ForecastCard>
   </div>
 </template>
 
 <script>
+import ForecastCard from './components/ForecastCard.vue';
+
 export default {
   name: 'App',
   data(){
     return {
+      forecast_data: null,
       weather_data: null,
       selectedCity: null,
       selectInfo: 'temp',
       city: [
-        {name: 'Нижний Тагил', lat: '57.55', lon:'59.58'},
-        {name: 'Сочи', lat: '23.55', lon:'51.58'},
-        {name: 'Усть-кут', lat: '51.55', lon:'29.58'},
-        {name: 'Норильск', lat: '51.55', lon:'29.58'}
+        {name: 'Нижний Тагил', lat: '57.91', lon:'59.96'},
+        {name: 'Сочи', lat: '43.60', lon:'39.72'},
+        {name: 'Усть-кут', lat: '56.78', lon:'105.74'},
+        {name: 'Норильск', lat: '69.35', lon:'88.20'}
       ]
     }
   },
@@ -34,15 +39,24 @@ export default {
   },
   methods:{
     select_city(){
-    fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${this.city[this.selectedCity].lat}&lon=${this.city[this.selectedCity].lon}&appid=d5cf04b5ad87f65ba02070c805dcad72&units=metric&lang=ru`)
+    //fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${this.city[this.selectedCity].lat}&lon=${this.city[this.selectedCity].lon}&appid=d5cf04b5ad87f65ba02070c805dcad72&units=metric&lang=ru`)
+    fetch('weather.json')
     .then(resp=>resp.json())
     .then(json=>{
       this.weather_data=json;
     });
+
+    //fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${this.city[this.selectedCity].lat}&lon=${this.city[this.selectedCity].lon}&appid=d5cf04b5ad87f65ba02070c805dcad72&units=metric&lang=ru`)
+    //api.openweathermap.org/data/2.5/forecast/daily?lat=${this.city[this.selectedCity].lat}&lon=${this.city[this.selectedCity].lon}&cnt=5&appid=d5cf04b5ad87f65ba02070c805dcad72&units=metric&lang=ru
+    fetch('forecast.json')
+    .then(resp=>resp.json())
+    .then(json=>{
+      this.forecast_data=json;
+    });
     }
   },
   components: { 
-
+    ForecastCard
   },
 }
 </script>
@@ -55,5 +69,12 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+.cards{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
 }
 </style>
