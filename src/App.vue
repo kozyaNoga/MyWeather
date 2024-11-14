@@ -1,17 +1,32 @@
 <template>
-  <h1>Приложение погоды</h1>
-  <select @change="select_city" v-model="selectedCity">
-  <option v-for="(c,i) in city" :value="i" :key="i">{{ c.name }}</option>
-  </select>
-  <p v-if="!weather_data">Загрузка...</p> 
-  <div v-if="forecast_data" class="cards">
-    <ForecastCard
-      v-for="(f, i) in forecast_data.list"
-      :key="i"
-      :forecast_data="f">
-      
-    </ForecastCard>
-  </div>
+  <!DOCTYPE html>
+  <html lang="en">
+    <head>
+      efdfd
+    </head>
+    <body>
+      <header>
+        <h1>Приложение погоды</h1>
+      </header>
+      <main>
+        <select @change="select_city" v-model="selectedCity">
+          <option v-for="(c,i) in city" :value="i" :key="i">{{ c.name }}</option>
+        </select>
+        <p v-if="!weather_data">Загрузка...</p> 
+        <div v-if="forecast_data" class="cards">
+          <ForecastCard
+            v-for="(f, i) in forecast_data.list"
+            :key="i"
+            :forecast_data="f">
+            
+          </ForecastCard>
+        </div>
+      </main>
+      <footer>
+
+      </footer>
+    </body>
+  </html>
 </template>
 
 <script>
@@ -68,7 +83,7 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 0px;
 }
 .cards{
   display: flex;
@@ -76,5 +91,26 @@ export default {
   flex-wrap: wrap;
   gap: 10px;
   justify-content: center;
+  
+}
+main{
+  padding: 0pt 0pt 0pt 0pt;
+  margin: 0pt 20% 0pt 20%;
+}
+select{
+  margin: 5% 0% 5% 0%;
+  min-width: 20%;
+  min-height: 10%;
+  font-size: 15pt;
+}
+header{
+  background-color: black;
+  color: azure;
+  margin: 0pt 0pt 0pt 0pt;
+  padding: 10pt 0pt 10pt 0pt;
+}
+body{
+  margin: 0pt 0pt 0pt 0pt;
+  padding: 0pt 0pt 0pt 0pt;
 }
 </style>
